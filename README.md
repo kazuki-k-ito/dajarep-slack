@@ -1,6 +1,8 @@
 # dajarep-slack
 Slack bot in Go for detecting Japanese "DAJARE"
 
+![image](https://github.com/allezsans/dajarep-slack/blob/image/image01.png)
+
 ## Installing
 Just go get as below:
 
