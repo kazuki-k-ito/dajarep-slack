@@ -1,0 +1,37 @@
+{
+    "memo": "3fc2ac57c9dcfa6493f5ca49a543ac89168ae583090c1c5b85ff7775b024ff06",
+    "projects": [
+        {
+            "name": "github.com/ikawaha/kagome",
+            "branch": "master",
+            "revision": "ee93139d1ff0f5639069b05868b2470c60c995f8",
+            "packages": [
+                "tokenizer"
+            ]
+        },
+        {
+            "name": "github.com/kurehajime/dajarep",
+            "branch": "master",
+            "revision": "4cd3bbdac2a0ae60af9166453881df0a6982142a",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/nlopes/slack",
+            "branch": "master",
+            "revision": "e595e9d8590a04ff76407e4e7d1791d25b095c66",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "golang.org/x/net",
+            "branch": "master",
+            "revision": "69d4b8aa71caaaa75c3dfc11211d1be495abec7c",
+            "packages": [
+                "websocket"
+            ]
+        }
+    ]
+}

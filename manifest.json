@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "github.com/kurehajime/dajarep": {
+            "branch": "master"
+        },
+        "github.com/nlopes/slack": {
+            "branch": "master"
+        }
+    }
+}
