@@ -1,50 +1,52 @@
 package main
 
 import (
-	"bytes"
-	"fmt"
-	"log"
-	"os"
+    "flag"
+    "fmt"
+    "log"
+    "os"
 
-	"github.com/kurehajime/dajarep"
-	"github.com/nlopes/slack"
+    "github.com/kurehajime/dajarep"
+    "github.com/nlopes/slack"
 )
 
 func main() {
-	token := os.Getenv("SLACK_BOT_TOKEN")
-	api := slack.New(token)
-	logger := log.New(os.Stdout, "slack-bot: ", log.Lshortfile|log.LstdFlags)
-	slack.SetLogger(logger)
+    token := os.Getenv("SLACK_BOT_TOKEN")
+    api := slack.New(token)
+    logger := log.New(os.Stdout, "slack-bot: ", log.Lshortfile|log.LstdFlags)
+    slack.SetLogger(logger)
 
-	rtm := api.NewRTM()
-	go rtm.ManageConnection()
+    reaction := flag.String("reaction", "+1", "set your slack reaction")
+    flag.Parse()
+
+    rtm := api.NewRTM()
+    go rtm.ManageConnection()
 
 Loop:
-	for {
-		select {
-		case msg := <-rtm.IncomingEvents:
-			switch ev := msg.Data.(type) {
-			case *slack.MessageEvent:
-				res := buildResponse(ev.Text)
-				rtm.SendMessage(rtm.NewOutgoingMessage(res, ev.Channel))
-			case *slack.InvalidAuthEvent:
-				fmt.Printf("Invalid credentials")
-				break Loop
-			default:
-				// Ignore other events..
-				// fmt.Printf("Unexpected: %v\n", msg.Data)
-			}
-		}
-	}
+    for {
+       select {
+        case msg := <-rtm.IncomingEvents:
+            switch ev := msg.Data.(type) {
+            case *slack.MessageEvent:
+                msgRef := slack.NewRefToMessage(ev.Channel, ev.Timestamp)
+                if res := hasDajare(ev.Text); res {
+                    if err := api.AddReaction(*reaction, msgRef); err != nil {
+                        fmt.Printf("Error adding reaction: %s\n", err)
+                        return
+                    }
+                }
+            case *slack.InvalidAuthEvent:
+                fmt.Printf("Invalid credentials")
+                break Loop
+            default:
+                // Ignore other events..
+                // fmt.Printf("Unexpected: %v\n", msg.Data)
+            }
+        }
+    }
 }
 
-func buildResponse(msg string) string {
-	d, _ := dajarep.Dajarep(msg)
-	var buffer bytes.Buffer
-	for _, v := range d {
-		buffer.WriteString("えっ?ダジャレっすか？？\n> ")
-		buffer.WriteString(v)
-		buffer.WriteString("\n")
-	}
-	return buffer.String()
+func hasDajare(msg string) bool {
+    d, _ := dajarep.Dajarep(msg)
+    return len(d) > 0
 }
