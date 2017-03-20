@@ -16,7 +16,7 @@ func main() {
     logger := log.New(os.Stdout, "slack-bot: ", log.Lshortfile|log.LstdFlags)
     slack.SetLogger(logger)
 
-    reaction := flag.String("reaction", "+1", "set your slack reaction")
+    reaction := flag.String("r", "+1", "set your slack reaction")
     flag.Parse()
 
     rtm := api.NewRTM()
