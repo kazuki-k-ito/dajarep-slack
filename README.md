@@ -8,6 +8,12 @@ Just go get as below:
 
 `go get github.com/allezsans/dajarep-slack`
 
+### Description
+- sentence.go
+  - Return your "DAJARE" with sentence like the above image
+- reaction.go
+  - Add slack reaction your slack remark
+
 ### Dependencies
 You have to also `go get` dependencies as below:
 
@@ -22,6 +28,6 @@ Set your Slack API token.
 
 Build and execute binary as daemon
 
-`go build main.go`
+`go build sentence.go` or `go build reaction.go`
 
-`./main`
+`./sentence` or `./reaction -r "your reaction name(default +1)"`
